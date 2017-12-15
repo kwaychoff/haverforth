@@ -1,0 +1,59 @@
+7. Demonstrate that you can use the JavaScript debugger by taking a
+   screenshot of it processing some line you input. Describe what's
+   happening in the screenshot and write up something you found useful
+   about the JavaScript debugger.
+
+	In the screenshot, I have created a new user-defined function called "kelly". The 
+	function UserInput is about to add a new function to the object words that does everything
+	from in between ":" and ";".
+	I think the javascript debugger is really easy to work with and step through, 
+	especially since it will show you your code right there. I find the debuggers in racket and C++
+	to be less intuitive.
+
+8. Compare and contrast each thing you've done here to your
+   implementation in C++. Answer the following questions:
+
+   - What new perspective did you gain by redoing the lab in
+     JavaScript?
+     
+     Even after doing this lab in both C++ and Racket, I didn't have a good grasp of the material.
+     After implementing it again, it has really solidified in my mind conceptually. It also seems
+     that even though we are looking at very different languages, a task can be accomplished 
+     in any of them. Some may be easier than others, but most things are not impossible.
+
+   - Can you point to one instance where the lack of types in
+     JavaScript was damaging to your productivity?
+     
+     I got stuck for a long time when I was splitting the input in the process functions. 
+     I didn't realize that just calling input.trim().split(/ +/) didn't change input, so for
+     a long time I thought that input had been changed into a list of strings when it was still 
+     just a string.
+   
+   - Did JavaScript's lack of types surprise you? Or hurt you in any
+     way? Or was it easier than C++ because you didn't have to
+     annotate the program with types? Either answer is fine here, as
+     long as you provide some thoughtful reflection.
+     
+     Because of all the time we've spent working in Racket, I think that I've almost gotten 
+     used to not having types explicitly stated. Being able to look at a function and really 
+     understand what's going on (regardless of whether types are indicated) is a skill that 
+     takes practice. I think that when you've practiced a lot without types, they can get 
+     in the way and almost make it more complicated, or at least less readable.
+
+   - Describe a few features of programming your previous lab that you
+     used here. For example, describe how you observed any of the
+     following in JS:
+
+      - Objects 
+      	JS objects are pretty different from what we've done with objects in other languages
+      	in the past. Making the words object and later adding to it was really easy once 
+      	I realized that the functions we put in it should not take arguments. I think because of 
+      	this, implementing user-defined functions was easier than before.
+
+      - Dynamic typing
+      	What doesn't make sense to me about dynamic typing in JS is why we still need the var
+      	when we initialize variables. Python, for example, works similarly in that we don't 
+      	need to declare types, but there also is not a special word for initializing variables.
+      	      
+      
+      

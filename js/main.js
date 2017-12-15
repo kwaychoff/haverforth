@@ -134,8 +134,6 @@ function renderStack(stack) {
 function process(stack, input, terminal) {
     // The user typed a number
     var newInput = input.trim().split(/ +/);
-    console.log(typeof newInput);
-    console.log(newInput);
     if(newInput[0] === ":"){
     	userInput(stack, newInput, terminal)
     }else{
