@@ -1,12 +1,104 @@
 // See the following on using objects as key/value dictionaries
 // https://stackoverflow.com/questions/1208222/how-to-do-associative-array-hashing-in-javascript
-var words = {};
+var words ={'+' : add, 
+			'-' : sub,
+			'*' : mult,
+			'/' : div,
+			'nip' : nip,
+			'swap' : swap,
+			'over' : over,
+			'>' : great,
+			'=' : eq,
+			'<' : less};
 
 /** 
  * Your thoughtful comment here.
  */
 function emptyStack(stack) {
-    // ...
+    //stack.slice().forEach(
+    //	stack.pop()
+    //);
+    stack.length = 0;
+    renderStack(stack);
+};
+
+/**
+*    - Standard arithmetic operations: `+`, `-`, `*`, and `/`
+    - `nip`
+    - `swap`
+    - `over`
+    - `>`
+    - `=`
+    - `<`
+*/
+
+function add(stack) {
+	var first = stack.pop();
+	var second = stack.pop();
+    stack.push(second+first);
+}
+function sub(stack) {
+	var first = stack.pop();
+	var second = stack.pop();
+	stack.push(second - first);
+}
+function mult(stack) {
+	var first = stack.pop();
+	var second = stack.pop();
+	stack.push(first*second);
+}
+function div(stack) {
+	var first = stack.pop();
+	var second = stack.pop();
+	stack.push(second/first);
+}
+function nip(stack) {
+	var first = stack.pop();
+	var second = stack.pop();
+	stack.push(first);
+}
+function swap(stack) {
+	var first = stack.pop();
+	var second = stack.pop();
+	stack.push(first);
+	stack.push(second);
+}
+function over(stack){
+	var first = stack.pop();
+	var second = stack.pop();
+	stack.push(second);
+	stack.push(first);
+	stack.push(second);
+}
+function great(stack){
+	var first = stack.pop();
+	var second = stack.pop();
+	if (second > first){
+		stack.push(-1);
+	}
+	else{
+		stack.push(0);
+	}
+}
+function eq(stack){
+	var first = stack.pop();
+	var second = stack.pop();
+	if (second === first){
+		stack.push(-1);
+	}
+	else{
+		stack.push(0);
+	}
+}
+function less(stack){
+	var first = stack.pop();
+	var second = stack.pop();
+	if (second < first){
+		stack.push(-1);
+	}
+	else{
+		stack.push(0);
+	}
 }
 
 /**
@@ -41,20 +133,34 @@ function renderStack(stack) {
  */
 function process(stack, input, terminal) {
     // The user typed a number
-    if (!(isNaN(Number(input)))) {
-        print(terminal,"pushing " + Number(input));
-        stack.push(Number(input));
-    } else if (input === ".s") {
-        print(terminal, " <" + stack.length + "> " + stack.slice().join(" "));
-    } else if (input === "+") {
-        var first = stack.pop();
-        var second = stack.pop();
-        stack.push(first+second);
-    } else {
-        print(terminal, ":-( Unrecognized input");
-    }
-    renderStack(stack);
+    var newInput = input.trim().split(/ +/);
+    console.log(typeof newInput);
+    console.log(newInput);
+    if(newInput[0] === ":"){
+    	userInput(stack, newInput, terminal)
+    }else{
+		newInput.forEach(function(element){
+			if (!(isNaN(Number(element)))) {
+				print(terminal,"pushing " + Number(element));
+				stack.push(Number(element));
+			} else if (element === ".s") {
+				print(terminal, " <" + stack.length + "> " + stack.slice().join(" "));
+			}else if (element in words) {
+				words[element](stack);
+			}else {
+				print(terminal, ":-( Unrecognized input");
+			}
+			renderStack(stack);
+    });}
 };
+    
+function userInput(stack, newInput, terminal) { //newinput is an array of strings like [":", "hi", "+", ";"]
+	var inside = newInput.slice(2,-1);
+	var name = newInput[1];
+	words[name] = function(){
+		process(stack, inside.join(" "), terminal);
+	}
+}
 
 function runRepl(terminal, stack) {
     terminal.input("Type a forth command:", function(line) {
@@ -74,7 +180,11 @@ $(document).ready(function() {
     // Find the "terminal" object and change it to add the HTML that
     // represents the terminal to the end of it.
     $("#terminal").append(terminal.html);
-
+	
+	$( "#reset" ).click(function() {
+  		//alert( "Handler for .click() called." );
+  		emptyStack(stack);
+	});
     var stack = [];
 
     print(terminal, "Welcome to HaverForth! v0.1");
