@@ -1,5 +1,7 @@
 // See the following on using objects as key/value dictionaries
 // https://stackoverflow.com/questions/1208222/how-to-do-associative-array-hashing-in-javascript
+var words_init ={'+' : add, '-' : sub,'*' : mult,'/' : div,'nip' : nip,'swap' : swap,'over' : over,'>' : great,'=' : eq,'<' : less};
+//created var_words_init to differentiate between user-defined and non user-defined words
 var words ={'+' : add, 
 			'-' : sub,
 			'*' : mult,
@@ -158,6 +160,16 @@ function userInput(stack, newInput, terminal) { //newinput is an array of string
 	words[name] = function(){
 		process(stack, inside.join(" "), terminal);
 	}
+	var div = document.getElementById('user-defined-funcs');
+	$( '<a/>', {'id' : name,
+	'class' : 'btn',
+	'href' : '#',
+	'role' : 'button',
+	'text' : name
+	}).click(function(){
+		//words[name](stack);
+		process(stack, name, terminal);
+	}).appendTo(div);
 }
 
 function runRepl(terminal, stack) {
@@ -167,6 +179,26 @@ function runRepl(terminal, stack) {
         runRepl(terminal, stack);
     });
 };
+
+//maybe will not use
+function makeButtons(stack, terminal){
+	//https://stackoverflow.com/questions/8936652/dynamically-create-buttons-with-jquery
+	var div = document.getElementById('user-defined-funcs');
+	//https://stackoverflow.com/questions/327047/what-is-the-most-efficient-way-to-create-html-elements-using-jquery
+	for (word in words) {
+		if (!(word in words_init)){
+			$( '<a/>', {'id' : word,
+				'class' : 'btn',
+				'href' : '#',
+				'role' : 'button',
+				'text' : word
+				}).click(function(){
+					//words[word](stack);
+					process(stack, word, terminal);
+				}).appendTo(div);
+		}
+	}
+}
 
 // Whenever the page is finished loading, call this function. 
 // See: https://learn.jquery.com/using-jquery-core/document-ready/
@@ -183,6 +215,7 @@ $(document).ready(function() {
   		//alert( "Handler for .click() called." );
   		emptyStack(stack);
 	});
+
     var stack = [];
 
     print(terminal, "Welcome to HaverForth! v0.1");
