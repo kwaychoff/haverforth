@@ -1,3 +1,89 @@
+//Creating the Stack Class
+function Stack() {
+	this.stuff = [];
+	this.len = 0;
+	this.Pop = function() {
+		var result = this.stuff[this.len - 1];
+		this.stuff = this.stuff.slice(0, -1);
+   		return result;
+	};
+	this.Push = function(x) {
+		this.stuff = this.stuff.push(x);
+   		this.len = this.len + 1;
+	};
+	this.getLen = function() {
+		return this.len;
+	};
+}
+//http://www.dofactory.com/javascript/observer-design-pattern
+var ObservableStack = Object.create(Stack);
+ObservableStack.handlers = [];
+ObservableStack.registerObserver =  function(observer) {
+         this.handlers.push(observer);
+     };
+ObservableStack.fire = function(o, thisObj) {
+    var scope = thisObj || window;
+    this.handlers.forEach(function(item) {
+        item.call(scope, o);
+    });  
+    };
+
+// ObservableStack.prototype = {
+//     subscribe: function(fn) {
+//         this.handlers.push(fn);
+//     },
+//     fire: function(o, thisObj) {
+//         var scope = thisObj || window;
+//         this.handlers.forEach(function(item) {
+//             item.call(scope, o);
+//         });
+//     }
+// }
+
+
+// Stack.prototype.Pop = function() {
+// 	var result = this.stuff[this.len - 1];
+// 	this.stuff = this.stuff.slice(0, -1);
+//     return result;
+// };
+// Stack.prototype.Push = function(x) {
+// 	this.stuff = this.stuff.push(x);
+//    	this.len = this.len + 1;
+// };
+
+// class Stack { 
+//   constructor() {
+//     this.stuff = [];
+//     this.len = 0;
+//   }
+//   
+//   Pop() {
+//   	var result = this.stuff[this.len - 1];
+//     this.stuff = this.stuff.slice(0, -1);
+//     return result;
+//   }
+//   
+//   Push(x) {
+//   	this.stuff = this.stuff.push(x);
+//   	this.len = this.len + 1;
+//   }
+//   getLen() {
+//   	return this.len;
+//   }
+// }
+// 
+// class ObservableStack extends Stack {
+// constructor() {
+//     this.stuff = [];
+//     this.len = 0;
+//   }
+// }
+  
+
+	
+
+
+
 // See the following on using objects as key/value dictionaries
 // https://stackoverflow.com/questions/1208222/how-to-do-associative-array-hashing-in-javascript
 var words_init ={'+' : add, '-' : sub,'*' : mult,'/' : div,'nip' : nip,'swap' : swap,'over' : over,'>' : great,'=' : eq,'<' : less};
@@ -17,9 +103,6 @@ var words ={'+' : add,
  * Your thoughtful comment here.
  */
 function emptyStack(stack) {
-    //stack.slice().forEach(
-    //	stack.pop()
-    //);
     stack.length = 0;
     renderStack(stack);
 };
@@ -216,7 +299,9 @@ $(document).ready(function() {
   		emptyStack(stack);
 	});
 
-    var stack = [];
+    //var stack = [];
+    var stack = Object.create(ObservableStack);
+    stack.registerObserver(renderStack);
 
     print(terminal, "Welcome to HaverForth! v0.1");
     print(terminal, "As you type, the stack (on the right) will be kept in sync");
