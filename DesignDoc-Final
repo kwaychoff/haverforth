@@ -1,0 +1,66 @@
+CS245 Final Project
+git repository: kwaychoff/haverforth
+
+1)What was the most challenging part of this lab?
+	I did end up getting stuck on the part of the lab where we were supposed to implement
+	an observer pattern. After a considerable amount of work I was able to make the Stack 
+	class and ObservableStack classes work and implement them, but I was not able to
+	finish the observer part. While I understand that we want to have a property of our
+	observable stack be that when it is updated it automatically runs renderStack, but I
+	couldn't get a good grasp of how to make that happen.
+
+2)What did you enjoy most about JavaScript?
+	It is definitely fun to see the work represented visually! At my job in Digital
+	Scholarship we make a lot of websites, but I rarely work with javascript for that, so
+	it was very cool to learn more about it.
+	Working with javascript felt more tangible than other languages where we just end up 
+	printing out some text.
+	I also just really enjoy making buttons.
+
+3)What did you least enjoy about JavaScript?
+	Classes are absolutely ridiculous. Why are there so many ways to make a class? Why do 
+	so many people do it differently? I somewhat understand the appeal of having them 
+	not really being classes, but actually objects, but for a beginner it is not very 
+	helpful.
+	Also, when you start doing anything interesting, the amount of semi-colons and
+	brackets and parentheses can become hard to manage.
+
+4)Do you think you would choose JavaScript over other languages for this task? What other
+ language would you have chosen to implement the interpreter in, and why?
+	 For the task of implementing the interpretor in a web-browser friendly way, 
+	 javascript is the way to go. I know that you can do web design stuff with python 
+	 using frameworks like django and flask, but that would be excessive for this project.
+	 And even if you were to use that for the hypothetical site, you would probably still 
+	 end up using javascript for this part.
+	 Outside of web design, however, I think it doesn't really matter. The skills required 
+	 to make a basic forth interpreter like this one seem to be a part of most languages.
+
+5)Did the lack of type safety hurt you on this lab? Were there any points at which 
+you got tripped up by not having types?
+	Absolutely! This time even worse than while doing lab 7. For whatever reason, when I
+	was pushing into an empty array, for some reason I was getting a the element back
+	instead of an array with that element in it. I don't even know how long I spent trying
+	to figure that out. Doing console.log(typeof something) I found to be very useful.
+	
+6)Were any of the concepts used in class helpful to you completing this project, 
+even though this lab is in JavaScript (vs Racket / C++)?
+	Without all of the practice we have had in forth, implementing it in both C++ and 
+	Racket, this project would have been significantly more difficult. It was also good
+	to have the background that we had on closures and subclasses.
+
+7)If you could add one feature to this application, but don't have time / know-how to do
+ so, what would it be? What concepts from the class do you envision could help get you 
+ there?
+ 	Of course, I wish I could fix the part I'm missing. Other than that, I would really
+ 	have liked to implement the circle/canvas suggestion. In all my cs classes, even
+ 	when we have used a pre-made graphical interface, I've never learned how to do any of
+ 	that. Part of what I'm most interested in is the visual side of computer science, so
+ 	anything related to that in the slightest I enjoy. 
+ 	It seems fairly simple to implement given the practice we had making buttons and
+ 	relating things to different places in the HTML.
+ 	It might also be interesting to keep track of the history of the stack, or make it
+ 	so the user could step through each change that happens on the stack. This might be
+ 	useful if we were using this as a way to teach about forth. 
+ 	We would have to change the process so that it stopped after every word in the line,
+ 	though we would then have to be more careful implementing if statements and user
+ 	defined functions.
