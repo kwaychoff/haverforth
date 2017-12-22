@@ -1,86 +1,38 @@
 //Creating the Stack Class
-function Stack() {
-	this.stuff = [];
-	this.len = 0;
-	this.Pop = function() {
-		var result = this.stuff[this.len - 1];
-		this.stuff = this.stuff.slice(0, -1);
-   		return result;
-	};
-	this.Push = function(x) {
-		this.stuff = this.stuff.push(x);
+var Stack = {
+	stuff : [],
+	len : 0,
+	Push : function(x) {
+		this.stuff = this.stuff.concat([x]);
+		console.log(typeof this.stuff);
    		this.len = this.len + 1;
-	};
-	this.getLen = function() {
+	},
+	Pop : function() {
+		this.len = this.len - 1;
+		return this.stuff.pop();
+	},
+	getLen : function() {
 		return this.len;
-	};
+	},
+	getRepl : function() {
+		return this.stuff.slice().join(" ");
+	}
 }
+
 //http://www.dofactory.com/javascript/observer-design-pattern
 var ObservableStack = Object.create(Stack);
-ObservableStack.handlers = [];
+ObservableStack.observers = [];
 ObservableStack.registerObserver =  function(observer) {
-         this.handlers.push(observer);
+         this.observers.push(observer);
      };
-ObservableStack.fire = function(o, thisObj) {
-    var scope = thisObj || window;
-    this.handlers.forEach(function(item) {
-        item.call(scope, o);
-    });  
-    };
-
-// ObservableStack.prototype = {
-//     subscribe: function(fn) {
-//         this.handlers.push(fn);
-//     },
-//     fire: function(o, thisObj) {
-//         var scope = thisObj || window;
-//         this.handlers.forEach(function(item) {
-//             item.call(scope, o);
-//         });
-//     }
-// }
-
-
-// Stack.prototype.Pop = function() {
-// 	var result = this.stuff[this.len - 1];
-// 	this.stuff = this.stuff.slice(0, -1);
-//     return result;
-// };
-// Stack.prototype.Push = function(x) {
-// 	this.stuff = this.stuff.push(x);
-//    	this.len = this.len + 1;
-// };
-
-// class Stack { 
-//   constructor() {
-//     this.stuff = [];
-//     this.len = 0;
-//   }
-//   
-//   Pop() {
-//   	var result = this.stuff[this.len - 1];
-//     this.stuff = this.stuff.slice(0, -1);
-//     return result;
-//   }
-//   
-//   Push(x) {
-//   	this.stuff = this.stuff.push(x);
-//   	this.len = this.len + 1;
-//   }
-//   getLen() {
-//   	return this.len;
-//   }
-// }
-// 
-// class ObservableStack extends Stack {
-// constructor() {
-//     this.stuff = [];
-//     this.len = 0;
-//   }
-// }
-  
-
-	
+// ObservableStack.fire = function(o, thisObj) {
+//     var scope = thisObj || window;
+//     this.observers.forEach(function(item) {
+//         item.call(scope, o);
+//     });  
+ObservableStack.fire = function(data) {
+	this.observers.forEach((observer) => observer(data));
+};
 
 
 
@@ -103,9 +55,15 @@ var words ={'+' : add,
  * Your thoughtful comment here.
  */
 function emptyStack(stack) {
-    stack.length = 0;
-    renderStack(stack);
+    //stack.length = 0;
+    //renderStack(stack);
+    var count = stack.getLen();
+    for (i = 0; i < count; i++) { 
+    	stack.Pop();
+	}
+	renderStack(stack);
 };
+
 
 /**
 *    - Standard arithmetic operations: `+`, `-`, `*`, and `/`
@@ -118,71 +76,71 @@ function emptyStack(stack) {
 */
 
 function add(stack) {
-	var first = stack.pop();
-	var second = stack.pop();
-    stack.push(second+first);
+	var first = stack.Pop();
+	var second = stack.Pop();
+    stack.Push(second+first);
 }
 function sub(stack) {
-	var first = stack.pop();
-	var second = stack.pop();
-	stack.push(second - first);
+	var first = stack.Pop();
+	var second = stack.Pop();
+	stack.Push(second - first);
 }
 function mult(stack) {
-	var first = stack.pop();
-	var second = stack.pop();
-	stack.push(first*second);
+	var first = stack.Pop();
+	var second = stack.Pop();
+	stack.Push(first*second);
 }
 function div(stack) {
-	var first = stack.pop();
-	var second = stack.pop();
-	stack.push(second/first);
+	var first = stack.Pop();
+	var second = stack.Pop();
+	stack.Push(second/first);
 }
 function nip(stack) {
-	var first = stack.pop();
-	var second = stack.pop();
-	stack.push(first);
+	var first = stack.Pop();
+	var second = stack.Pop();
+	stack.Push(first);
 }
 function swap(stack) {
-	var first = stack.pop();
-	var second = stack.pop();
-	stack.push(first);
-	stack.push(second);
+	var first = stack.Pop();
+	var second = stack.Pop();
+	stack.Push(first);
+	stack.Push(second);
 }
 function over(stack){
-	var first = stack.pop();
-	var second = stack.pop();
-	stack.push(second);
-	stack.push(first);
-	stack.push(second);
+	var first = stack.Pop();
+	var second = stack.Pop();
+	stack.Push(second);
+	stack.Push(first);
+	stack.Push(second);
 }
 function great(stack){
-	var first = stack.pop();
-	var second = stack.pop();
+	var first = stack.Pop();
+	var second = stack.Pop();
 	if (second > first){
-		stack.push(-1);
+		stack.Push(-1);
 	}
 	else{
-		stack.push(0);
+		stack.Push(0);
 	}
 }
 function eq(stack){
-	var first = stack.pop();
-	var second = stack.pop();
+	var first = stack.Pop();
+	var second = stack.Pop();
 	if (second === first){
-		stack.push(-1);
+		stack.Push(-1);
 	}
 	else{
-		stack.push(0);
+		stack.Push(0);
 	}
 }
 function less(stack){
-	var first = stack.pop();
-	var second = stack.pop();
+	var first = stack.Pop();
+	var second = stack.Pop();
 	if (second < first){
-		stack.push(-1);
+		stack.Push(-1);
 	}
 	else{
-		stack.push(0);
+		stack.Push(0);
 	}
 }
 
@@ -202,12 +160,30 @@ function print(terminal, msg) {
  * Sync up the HTML with the stack in memory
  * @param {Array[Number]} The stack to render
  */
+ //https://we-are.bookmyshow.com/understanding-deep-and-shallow-copy-in-javascript-13438bad941c
 function renderStack(stack) {
     $("#thestack").empty();
-    stack.slice().reverse().forEach(function(element) {
-        $("#thestack").append("<tr><td>" + element + "</td></tr>");
-    });
-};
+    console.log(typeof stack);
+    try {
+		var count = stack.getLen();
+		var copyStack = jQuery.extend(true, {}, stack);
+		var holder = [];
+		for (i = 0; i < count; i++) { 
+			var item = copyStack.Pop();
+			holder.push(item);
+		}
+		for (i = 0; i < count; i++) {
+			$("#thestack").append("<tr><td>" + holder[i] + "</td></tr>");
+		}
+	}
+	catch(err){
+		console.log(err.message);
+	}
+};	
+    // stack.slice().reverse().forEach(function(element) {
+//         $("#thestack").append("<tr><td>" + element + "</td></tr>");
+//     });
+
 
 /** 
  * Process a user input, update the stack accordingly, write a
@@ -220,14 +196,16 @@ function process(stack, input, terminal) {
     // The user typed a number
     var newInput = input.trim().split(/ +/);
     if(newInput[0] === ":"){
-    	userInput(stack, newInput, terminal)
+    	userInput(stack, newInput, terminal);
+    }else if (newInput[0] === "if"){
+    	ifElse(stack, newInput, terminal);
     }else{
 		newInput.forEach(function(element){
 			if (!(isNaN(Number(element)))) {
 				print(terminal,"pushing " + Number(element));
-				stack.push(Number(element));
+				stack.Push(Number(element));
 			} else if (element === ".s") {
-				print(terminal, " <" + stack.length + "> " + stack.slice().join(" "));
+				print(terminal, " <" + String(stack.getLen()) + "> " + stack.getRepl());
 			}else if (element in words) {
 				words[element](stack);
 			}else {
@@ -236,6 +214,31 @@ function process(stack, input, terminal) {
 			renderStack(stack);
     });}
 };
+
+function ifElse(stack, newInput, terminal) {
+	var inside = newInput.slice(1, -1);
+	var firstHalf = [];
+	var secondHalf = [];
+	var infirst = true;
+	inside.forEach(function(element) {
+		if(element === "else"){
+			infirst = false;
+		}else if(infirst === true){
+			firstHalf.push(element);
+		}else{
+			secondHalf.push(element);
+		}
+	});
+	console.log(firstHalf);
+	console.log(secondHalf);
+	var top = stack.Pop();
+	if (Number(top) === 0){ //this is false
+		process(stack, secondHalf.join(" "), terminal);
+	}
+	else{
+		process(stack, firstHalf.join(" "), terminal);
+	}
+}
     
 function userInput(stack, newInput, terminal) { //newinput is an array of strings like [":", "hi", "+", ";"]
 	var inside = newInput.slice(2,-1);
@@ -299,9 +302,9 @@ $(document).ready(function() {
   		emptyStack(stack);
 	});
 
-    //var stack = [];
     var stack = Object.create(ObservableStack);
     stack.registerObserver(renderStack);
+    //stack.fire();
 
     print(terminal, "Welcome to HaverForth! v0.1");
     print(terminal, "As you type, the stack (on the right) will be kept in sync");
